@@ -41,7 +41,7 @@ public class Main {
                 cadastroLogin.fazerLogin(); // Função para fazer login
                 break;
             case 3:
-                System.out.println("Saindo do ProjetoNN.");
+                System.out.println("Saindo do ProjetoNN");
                 System.exit(0);
                 break;
         }

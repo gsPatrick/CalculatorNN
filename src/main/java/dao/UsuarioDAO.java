@@ -374,6 +374,187 @@ public class UsuarioDAO {
         }
     }
 
+    public Double obterBasalMeta(int idUsuario) {
+        String sql = "SELECT basal_meta FROM calculo_basal WHERE idusuario = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("basal_meta");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Retorna nulo se não houver valor no banco de dados.
+    }
+
+    public boolean inserirBasalMeta(int idUsuario, double valor) {
+        String sql = "UPDATE calculo_basal SET basal_meta = ? WHERE idusuario = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, valor);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public double obterProteinaUsuario(int idUsuario) {
+        double proteina = -1.0; // Valor padrão para indicar que não foi possível obter o valor de proteína
+
+        String sql = "SELECT proteina FROM calculo_basal WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                proteina = resultSet.getDouble("proteina");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return proteina;
+    }
+
+    public double obterCarboidratoUsuario(int idUsuario) {
+        double carboidrato = -1.0; // Valor padrão para indicar que não foi possível obter o valor de carboidrato
+
+        String sql = "SELECT carboidrato FROM calculo_basal WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                carboidrato = resultSet.getDouble("carboidrato");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return carboidrato;
+    }
+
+    public double obterGorduraUsuario(int idUsuario) {
+        double gordura = -1.0; // Valor padrão para indicar que não foi possível obter o valor de gordura
+
+        String sql = "SELECT gordura FROM calculo_basal WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                gordura = resultSet.getDouble("gordura");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return gordura;
+    }
+
+
+    public boolean atualizarProteinaUsuario(int idUsuario, int valorProteina) {
+        String sql = "UPDATE calculo_basal SET proteina = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, valorProteina);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean atualizarCarboidratoUsuario(int idUsuario, int valorCarboidrato) {
+        String sql = "UPDATE calculo_basal SET carboidrato = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, valorCarboidrato);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean atualizarGorduraUsuario( int idUsuario, int valorGordura) {
+        String sql = "UPDATE calculo_basal SET gordura = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, valorGordura);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    public String obterObjetivoUsuario(int idUsuario) {
+        String objetivo = "Teste" ; // Valor padrão para indicar que não foi possível obter o valor do objetivo
+
+        String sql = "SELECT objetivo FROM calculo_basal WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                objetivo = resultSet.getString("objetivo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return objetivo;
+    }
+
+    public boolean atualizarObjetivoUsuario(int idUsuario, String Objetivo) {
+        String sql = "UPDATE calculo_basal SET objetivo = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, Objetivo);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean adicionarObjetivoUsuario(int idUsuario, String objetivo) {
+        String sql = "INSERT INTO calculo_basal (idusuario, objetivo) VALUES (?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            statement.setString(2, objetivo);
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0; // Retorna verdadeiro se a inserção for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
+
+
 
 
 

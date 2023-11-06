@@ -14,11 +14,17 @@ public class MenuPrincipal {
     private Double basalValue; // Variável para armazenar o valor basal
 
 
+
+
+
+
     public MenuPrincipal(int idUsuarioLogado, String emailUsuarioLogado) {
         this.idUsuarioLogado = idUsuarioLogado;
         this.emailUsuarioLogado = emailUsuarioLogado;
         this.usuarioDAO = new UsuarioDAO(); // Crie uma instância de UsuarioDAO
     }
+
+
 
     public void dados() {
         Scanner scanner = new Scanner(System.in);
@@ -133,26 +139,26 @@ public class MenuPrincipal {
 
     public void atualizarGeral() {
 
-            System.out.print("Qual é o seu novo sexo? (1 - Masculino / 2 - Feminino): ");
-            int escolhaSexo = Integer.parseInt(scanner.nextLine());
-            String novoSexo = escolhaSexo == 1 ? "Masculino" : "Feminino";
+        System.out.print("Qual é o seu novo sexo? (1 - Masculino / 2 - Feminino): ");
+        int escolhaSexo = Integer.parseInt(scanner.nextLine());
+        String novoSexo = escolhaSexo == 1 ? "Masculino" : "Feminino";
 
-            System.out.print("Qual é a sua nova idade? ");
-            int novaIdade = Integer.parseInt(scanner.nextLine());
+        System.out.print("Qual é a sua nova idade? ");
+        int novaIdade = Integer.parseInt(scanner.nextLine());
 
-            System.out.print("Qual é o seu novo peso? ");
-            double novoPeso = Double.parseDouble(scanner.nextLine());
+        System.out.print("Qual é o seu novo peso? ");
+        double novoPeso = Double.parseDouble(scanner.nextLine());
 
-            System.out.print("Qual é a sua nova altura? ");
-            double novaAltura = Double.parseDouble(scanner.nextLine());
+        System.out.print("Qual é a sua nova altura? ");
+        double novaAltura = Double.parseDouble(scanner.nextLine());
 
-            usuarioDAO.atualizarSexo(idUsuarioLogado, novoSexo);
-            usuarioDAO.atualizarIdade(idUsuarioLogado, novaIdade);
-            usuarioDAO.atualizarPeso(idUsuarioLogado, novoPeso);
-            usuarioDAO.atualizarAltura(idUsuarioLogado, novaAltura);
+        usuarioDAO.atualizarSexo(idUsuarioLogado, novoSexo);
+        usuarioDAO.atualizarIdade(idUsuarioLogado, novaIdade);
+        usuarioDAO.atualizarPeso(idUsuarioLogado, novoPeso);
+        usuarioDAO.atualizarAltura(idUsuarioLogado, novaAltura);
 
-            System.out.println("Dados atualizados com sucesso");
-        }
+        System.out.println("Dados atualizados com sucesso");
+    }
 
 
     public double calcularBasal(String sexo, int idade, double peso, double altura) {
@@ -167,6 +173,7 @@ public class MenuPrincipal {
             System.out.println("2 - Pouco ativo: 1.5");
             System.out.println("3 - Ativo: 1.8");
             System.out.println("4 - Muito ativo: 2.1");
+            System.out.println("5 - Extremamente ativo");
 
             int escolhaNivelAtividade = Integer.parseInt(scanner.nextLine());
 
@@ -175,14 +182,18 @@ public class MenuPrincipal {
                     fatorAtividade = 1.2;
                     break;
                 case 2:
-                    fatorAtividade = 1.5;
+                    fatorAtividade = 1.375;
                     break;
                 case 3:
-                    fatorAtividade = 1.8;
+                    fatorAtividade = 1.55;
                     break;
                 case 4:
-                    fatorAtividade = 2.1;
+                    fatorAtividade = 1.725;
                     break;
+                case 5:
+                    fatorAtividade = 1.9;
+                    break;
+
                 default:
                     System.out.println("Opção inválida. Usando o nível de atividade padrão (Sedentário).");
                     break;
@@ -265,7 +276,303 @@ public class MenuPrincipal {
                 }
             }
         }
+    }
+
+    //CAMPANHA DO USUARIO
+
+
+
+
+    public void moderateCarb(double basalValueNovo) {
+
+        double proteina = (basalValue * 0.3) / 4; // 30% das calorias da proteína
+        double gordura = (basalValue * 0.35) / 9; // 35% das calorias da gordura
+        double carboidrato = (basalValue * 0.35) / 4; // 35% das calorias do carboidrato
+
+        int proteinaInt = (int) Math.round(proteina); // Convertendo para inteiro
+        int gorduraInt = (int) Math.round(gordura); // Convertendo para inteiro
+        int carboidratoInt = (int) Math.round(carboidrato); // Convertendo para inteiro
+
+        System.out.println("Moderate Carb:");
+        System.out.println("Proteína: " + proteinaInt + " gramas");
+        System.out.println("Gordura: " + gorduraInt + " gramas");
+        System.out.println("Carboidrato: " + carboidratoInt + " gramas");
+
+        // Agora que você tem os valores de proteína, gordura e carboidrato, atualize no banco de dados.
+        usuarioDAO.atualizarProteinaUsuario(idUsuarioLogado, proteinaInt);
+        usuarioDAO.atualizarGorduraUsuario(idUsuarioLogado, gorduraInt);
+        usuarioDAO.atualizarCarboidratoUsuario(idUsuarioLogado, carboidratoInt);
+
+        menuPrincipalOpcoes();
+
+
+    }
+
+    public void lowerCarb(double basalValueNovo) {
+        double proteina = (basalValue * 0.4) / 4; // 30% das calorias da proteína
+        double gordura = (basalValue * 0.4) / 9; // 35% das calorias da gordura
+        double carboidrato = (basalValue * 0.2) / 4; // 35% das calorias do carboidrato
+
+        int proteinaInt = (int) Math.round(proteina); // Convertendo para inteiro
+        int gorduraInt = (int) Math.round(gordura); // Convertendo para inteiro
+        int carboidratoInt = (int) Math.round(carboidrato); // Convertendo para inteiro
+
+        System.out.println("Moderate Carb:");
+        System.out.println("Proteína: " + proteinaInt + " gramas");
+        System.out.println("Gordura: " + gorduraInt + " gramas");
+        System.out.println("Carboidrato: " + carboidratoInt + " gramas");
+
+        // Agora que você tem os valores de proteína, gordura e carboidrato, atualize no banco de dados.
+        usuarioDAO.atualizarProteinaUsuario(idUsuarioLogado, proteinaInt);
+        usuarioDAO.atualizarGorduraUsuario(idUsuarioLogado, gorduraInt);
+        usuarioDAO.atualizarCarboidratoUsuario(idUsuarioLogado, carboidratoInt);
+
+        menuPrincipalOpcoes();
+
+
+    }
+
+    public void higherCarb(double basalValueNovo) {
+        double proteina = (basalValue * 0.3) / 4; // 30% das calorias da proteína
+        double gordura = (basalValue * 0.20) / 9; // 35% das calorias da gordura
+        double carboidrato = (basalValue * 0.50) / 4; // 35% das calorias do carboidrato
+
+        int proteinaInt = (int) Math.round(proteina); // Convertendo para inteiro
+        int gorduraInt = (int) Math.round(gordura); // Convertendo para inteiro
+        int carboidratoInt = (int) Math.round(carboidrato); // Convertendo para inteiro
+
+        System.out.println("Moderate Carb:");
+        System.out.println("Proteína: " + proteinaInt + " gramas");
+        System.out.println("Gordura: " + gorduraInt + " gramas");
+        System.out.println("Carboidrato: " + carboidratoInt + " gramas");
+
+        // Agora que você tem os valores de proteína, gordura e carboidrato, atualize no banco de dados.
+        usuarioDAO.atualizarProteinaUsuario(idUsuarioLogado, proteinaInt);
+        usuarioDAO.atualizarGorduraUsuario(idUsuarioLogado, gorduraInt);
+        usuarioDAO.atualizarCarboidratoUsuario(idUsuarioLogado, carboidratoInt);
+
+        menuPrincipalOpcoes();
+    }
+
+
+    public void Cutting(double basalValueNovo, int idUsuarioLogado) {
+        Scanner scanner = new Scanner(System.in);
+        double resultado = basalValue - 500;
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO(); // Crie uma instância de UsuarioDAO
+        usuarioDAO.inserirBasalMeta(idUsuarioLogado, resultado); // Chame a função inserirBasalMeta na instância
+
+        int escolha = 0;
+        do {
+            System.out.println("Após o cálculo, o valor é: " + resultado);
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Low carb");
+            System.out.println("2 - Moderate Carb");
+            System.out.println("3 - High carb");
+            System.out.println("0 - Voltar");
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+                switch (escolha) {
+                    case 1:
+                        lowerCarb(basalValue);
+                        break;
+                    case 2:
+                        moderateCarb(basalValue);
+                        break;
+                    case 3:
+                        higherCarb(basalValue);
+                        break;
+                    case 0:
+                        metaFitness();
+                        break;
+                    default:
+                        System.out.println("Escolha inválida. Digite um número de 0 a 3.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número de 0 a 3.");
+            }
+        } while (escolha != 0);
+    }
+
+
+    public void Bulking(double basalValueNovo, int idUsuarioLogado) {
+        Scanner scanner = new Scanner(System.in);
+        double resultado = basalValue + 500;
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO(); // Crie uma instância de UsuarioDAO
+        usuarioDAO.inserirBasalMeta(idUsuarioLogado, resultado); // Chame a função inserirBasalMeta na instância
+
+
+        int escolha = 0;
+        do {
+            System.out.println("Após o cálculo, o valor é: " + resultado);
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Low carb");
+            System.out.println("2 - Moderate Carb");
+            System.out.println("3 - High carb");
+            System.out.println("0 - Voltar");
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+                switch (escolha) {
+                    case 1:
+                        lowerCarb(basalValue);
+                        break;
+                    case 2:
+                        moderateCarb(basalValue);
+                        break;
+                    case 3:
+                        higherCarb(basalValue);
+                        break;
+                    case 0:
+                        metaFitness();
+                        break;
+                    default:
+                        System.out.println("Escolha inválida. Digite um número de 0 a 3.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número de 0 a 3.");
+            }
+        } while (escolha != 0);
+    }
+
+    public void Mantain() {
+
+        int escolha = 0;
+        do {
+            System.out.println("O valor é: " + basalValue);
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Low carb");
+            System.out.println("2 - Moderate Carb");
+            System.out.println("3 - High carb");
+            System.out.println("0 - Voltar");
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+                switch (escolha) {
+                    case 1:
+                        lowerCarb(basalValue);
+                        break;
+                    case 2:
+                        moderateCarb(basalValue);
+                        break;
+                    case 3:
+                        higherCarb(basalValue);
+                        break;
+                    case 0:
+                        metaFitness();
+                        break;
+                    default:
+                        System.out.println("Escolha inválida. Digite um número de 0 a 3.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número de 0 a 3.");
+            }
+        } while (escolha != 0);
+
+    }
+
+    public void metaFitness() {
+
+        basalValue = usuarioDAO.obterBasalValue(idUsuarioLogado); // Substitua pela forma como você obtém o valor.
+
+        int escolha = 0;
+        String objetivo = ""; // Inicialize a variável objetivo aqui
+
+        do {
+            System.out.println("Qual é a sua meta?");
+            System.out.println("1 - Cutting");
+            System.out.println("2 - Bulking");
+            System.out.println("3 - Maintain");
+            System.out.println("4 - Voltar");
+
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+
+                if (escolha < 1 || escolha > 4) {
+                    System.out.println("Escolha inválida. Digite um número de 1 a 3.");
+                } else {
+                    // Atribua o valor correspondente a escolha na variável objetivo
+                    switch (escolha) {
+                        case 1:
+                            objetivo = "Cutting";
+                            System.out.println(objetivo);
+
+                            Cutting(basalValue, idUsuarioLogado);
+                            break;
+                        case 2:
+                            objetivo = "Bulking";
+                            System.out.println(objetivo);
+
+                            Bulking(basalValue, idUsuarioLogado);
+                            break;
+                        case 3:
+                            System.out.println(objetivo);
+
+                            objetivo = "Maintain";
+                            Mantain();
+                            break;
+                        case 4:
+                            Divisor();
+                            return; // Retorne para encerrar a função se escolha for 4
+
+
+
+                    }
+                    break; // Saia do loop se a escolha for válida.
+
+                }
+
+                boolean atualizacaoBemSucedida = usuarioDAO.adicionarObjetivoUsuario(idUsuarioLogado, objetivo);
+
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número de 1 a 3.");
+            }
+
+        } while (true);
+
+
+
+
+    }
+
+    public void Divisor() {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1 - Definir meta ");
+            System.out.println("0 - Voltar");
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1:
+                        metaFitness(); // Chama a função metaFitness()
+                        break;
+                    case 0:
+                    dentroMenuFerramentas();
+                    break;
+                    default:
+                        System.out.println("Escolha inválida. Digite 0 ou 1.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite 0 ou 1.");
+            }
         }
+    }
+
 
 
     public void dentroMenuFerramentas() {
@@ -287,8 +594,7 @@ public class MenuPrincipal {
                         calculadoraBasal();
                         break;
                     case 2:
-                        // Implemente a opção "Divisor de Macronutrientes" aqui
-                        System.out.println("Opção 'Divisor de Macronutrientes' selecionada.");
+                        Divisor();
                         break;
                     case 3:
                         // Implemente a opção "Dieta" aqui
@@ -327,11 +633,31 @@ public class MenuPrincipal {
             System.out.println("Peso: " + (peso >= 0 ? peso : "N/A"));
             System.out.println("Altura: " + (altura >= 0 ? altura : "N/A"));
             System.out.println("Basal Value: " + (basalValue != null ? basalValue : "N/A"));
-            opcoesAtualizarDados();
 
+            int escolha = 0;
 
+            do {
+                System.out.println("Escolha uma opção:");
+                System.out.println("1 - Mudar dados manualmente");
+                System.out.println("2 - Refazer dados");
+                System.out.print("Digite o número da sua escolha: ");
 
+                try {
+                    escolha = Integer.parseInt(scanner.nextLine());
+
+                    if (escolha == 1) {
+                        opcoesAtualizarDados();
+                    } else if (escolha == 2) {
+                        atualizarGeral();
+                    } else {
+                        System.out.println("Escolha inválida. Digite 1 ou 2.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Digite 1 ou 2.");
+                }
+            } while (escolha != 1 && escolha != 2);
         }
+
 
     public void voltarParaVerOsDados() {
 
@@ -491,6 +817,56 @@ public class MenuPrincipal {
 
     }
 
+    public void verObjetivos() {
+
+        String objetivo = usuarioDAO.obterObjetivoUsuario(idUsuarioLogado);
+        double basal_meta = usuarioDAO.obterBasalMeta(idUsuarioLogado);
+
+        // Obter os valores de proteína, gordura e carboidrato como números inteiros
+        int proteinaInt = (int) Math.round(usuarioDAO.obterProteinaUsuario(idUsuarioLogado));
+        int gorduraInt = (int) Math.round(usuarioDAO.obterGorduraUsuario(idUsuarioLogado));
+        int carboidratoInt = (int) Math.round(usuarioDAO.obterCarboidratoUsuario(idUsuarioLogado));
+
+        System.out.println("Seu objetivo atual é de: " + objetivo);
+        System.out.println("Seu basal atual para seu objetivo é: " + basal_meta);
+        System.out.println("Para obter sucesso no seu objetivo siga essa divisão de macronutrientes:");
+        System.out.println("Proteína: " + proteinaInt );
+        System.out.println("Gordura: " + gorduraInt );
+        System.out.println("Carboidrato: " + carboidratoInt);
+
+        campanha();
+
+    }
+
+
+    public void campanha() {
+
+        int escolha = 0;
+
+        do {
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Ver meus objetivos"); // Chamar função aqui
+            System.out.println("2 - Voltar"); // Chamar função aqui
+            System.out.print("Digite o número da sua escolha: ");
+
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+
+                if (escolha == 1) {
+                    verObjetivos();
+                } else if (escolha == 2) {
+                    dentroPerfil();
+                } else {
+                    System.out.println("Escolha inválida. Digite 1 ou 2.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite 1 ou 2.");
+            }
+        } while (escolha != 1 && escolha != 2);
+    }
+
+
+
 
         public void dentroPerfil() {
         int opcao;
@@ -499,7 +875,7 @@ public class MenuPrincipal {
             try {
                 System.out.println("Escolha uma opção:");
                 System.out.println("1 - Ver dados");
-                System.out.println("2 - Refazer dados");
+                System.out.println("2 - Campanha");
                 System.out.println("3 - Voltar");
                 System.out.print("Digite o número da opção desejada: ");
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -517,7 +893,7 @@ public class MenuPrincipal {
 
                         break;
                     case 2:
-                        atualizarGeral();
+                        campanha();
                         break;
                     case 3:
                         menuPrincipalOpcoes();

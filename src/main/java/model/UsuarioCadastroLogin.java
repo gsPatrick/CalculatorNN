@@ -138,32 +138,38 @@ public class UsuarioCadastroLogin {
         System.out.print("Digite o email ou apelido: ");
         String emailOuApelido = scanner.nextLine();
 
-        System.out.print("Digite a senha: ");
-        String senha = scanner.nextLine();
+        int tentativasRestantes = 3; // Número de tentativas permitidas para a senha
 
-        if (usuarioDAO.autenticar(emailOuApelido, senha)) {
-            int idUsuarioLogado = usuarioDAO.obterIdUsuarioPorEmail(emailOuApelido);
-            String emailUsuarioLogado = emailOuApelido;
+        for (; tentativasRestantes > 0; tentativasRestantes--) {
+            System.out.print("Digite a senha: ");
+            String senha = scanner.nextLine();
 
-            if (emailOuApelido.contains("@")) {
-                // Se o valor fornecido for um email, definimos o email do usuário logado.
-                emailUsuarioLogado = emailOuApelido;
+            if (usuarioDAO.autenticar(emailOuApelido, senha)) {
+                int idUsuarioLogado = usuarioDAO.obterIdUsuarioPorEmail(emailOuApelido);
+                String emailUsuarioLogado = emailOuApelido;
+
+                if (emailOuApelido.contains("@")) {
+                    emailUsuarioLogado = emailOuApelido;
+                }
+
+                System.out.println("Login bem-sucedido");
+                System.out.println("ID do usuário logado: " + idUsuarioLogado);
+                System.out.println("Email do usuário logado: " + emailUsuarioLogado);
+
+                MenuPrincipal menu = new MenuPrincipal(idUsuarioLogado, emailUsuarioLogado);
+                menu.menuPrincipalOpcoes();
+
+                // Aqui você pode executar outras ações com o usuário logado.
+                return; // Sai da função após o login bem-sucedido.
+            } else {
+                System.out.println("Credenciais inválidas. Tentativas restantes: " + (tentativasRestantes - 1));
+                if (tentativasRestantes > 1) {
+                    System.out.println("Tente novamente.");
+                }
             }
-
-            System.out.println("Login bem-sucedido");
-            System.out.println("ID do usuário logado: " + idUsuarioLogado);
-            System.out.println("Email do usuário logado: " + emailUsuarioLogado);
-
-
-            MenuPrincipal menu = new MenuPrincipal(idUsuarioLogado, emailUsuarioLogado);
-            menu.menuPrincipalOpcoes();
-
-
-
-            // Agora você tem o ID e o email do usuário logado para uso em seu sistema.
-            // Chame a função de menu ou execute outras ações com essas informações.
-        } else {
-            System.out.println("Credenciais inválidas. Tente novamente.");
         }
+
+        System.out.println("Você excedeu o número de tentativas permitidas. Tente novamente mais tarde.");
+        scanner.close();
     }
 }

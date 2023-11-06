@@ -2,6 +2,7 @@ package model;
 import dao.Conexao;
 import dao.UsuarioDAO;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Scanner;
@@ -27,15 +28,78 @@ public class MenuPrincipal {
 
 
     public void dados() {
-        Scanner scanner = new Scanner(System.in);
-        String sexo = coletarSexo(scanner);
-        int idade = coletarIdade(scanner);
-        double peso = coletarPeso(scanner);
-        double altura = coletarAltura(scanner);
+        String sexo = "";
+        int idade = 0;
+        double peso = 0.0;
+        double altura = 0.0;
 
-        System.out.println("Dados coletados com sucesso");
+        while (true) {
+            System.out.println("Qual é o seu sexo?");
+            System.out.println("1 - Masculino");
+            System.out.println("2 - Feminino");
+            System.out.print("Digite a opção desejada: ");
 
-        UsuarioDAO usuarioDAO = new UsuarioDAO(); // Crie uma instância da classe UsuarioDAO
+            try {
+                int opcao = scanner.nextInt();
+                scanner.nextLine(); // Limpa a quebra de linha após o número
+
+                if (opcao == 1) {
+                    sexo = "Masculino";
+                    break;
+                } else if (opcao == 2) {
+                    sexo = "Feminino";
+                    break;
+                } else {
+                    System.out.println("Opção inválida. Por favor, escolha 1 ou 2.");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número (1 ou 2).");
+                scanner.nextLine(); // Limpa a entrada inválida
+            }
+        }
+
+        while (true) {
+            System.out.print("Qual é a sua idade? ");
+
+            try {
+                idade = scanner.nextInt();
+                scanner.nextLine(); // Limpa a quebra de linha após o número
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número inteiro para a idade.");
+                scanner.nextLine(); // Limpa a entrada inválida
+            }
+        }
+
+        while (true) {
+            System.out.print("Qual é o seu peso? ");
+
+            try {
+                peso = scanner.nextDouble();
+                scanner.nextLine(); // Limpa a quebra de linha após o número
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número para o peso.");
+                scanner.nextLine(); // Limpa a entrada inválida
+            }
+        }
+
+        while (true) {
+            System.out.print("Qual é a sua altura? ");
+
+            try {
+                altura = scanner.nextDouble();
+                scanner.nextLine(); // Limpa a quebra de linha após o número
+
+                System.out.println("Dados coletados com sucesso");
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número para a altura.");
+                scanner.nextLine(); // Limpa a entrada inválida
+            }
+        }
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioDAO.inserirDadosSaude(idUsuarioLogado, sexo, idade, peso, altura);
     }
 
@@ -139,7 +203,9 @@ public class MenuPrincipal {
 
     public void atualizarGeral() {
 
-        System.out.print("Qual é o seu novo sexo? (1 - Masculino / 2 - Feminino): ");
+        System.out.println("Qual é o seu novo sexo?");
+        System.out.println("1 - Masculino");
+        System.out.println("2 - Feminino");
         int escolhaSexo = Integer.parseInt(scanner.nextLine());
         String novoSexo = escolhaSexo == 1 ? "Masculino" : "Feminino";
 
@@ -226,15 +292,16 @@ public class MenuPrincipal {
         Double basalValue = usuarioDAO.obterBasalValue(idUsuarioLogado);
 
         if (basalValue == null) {
+
             String sexo = coletarSexo(scanner);
             int idade = coletarIdade(scanner);
             double peso = coletarPeso(scanner);
             double altura = coletarAltura(scanner);
 
             double novoBasalValue = calcularBasal(sexo, idade, peso, altura);
-
-            // Aqui, se o valor basal não existir no banco de dados, você pode inseri-lo
             usuarioDAO.inserirBasal(idUsuarioLogado, novoBasalValue);
+            System.out.println("Basal feito com sucesso");
+
         } else {
             boolean sair = false;
 
@@ -282,6 +349,29 @@ public class MenuPrincipal {
 
 
 
+    public void metaPeso() {
+        double pesoDesejado = 0.0;
+
+        while (true) {
+            System.out.print("Qual é o peso que você deseja alcançar? ");
+            if (scanner.hasNextDouble()) {
+                pesoDesejado = scanner.nextDouble();
+                break; // Sair do loop se o número for válido
+            } else {
+                System.out.println("Por favor, insira um número válido.");
+                scanner.next(); // Limpar a entrada inválida
+            }
+        }
+
+        System.out.println("Você deseja alcançar o peso de " + pesoDesejado + " kg.");
+        menuPrincipalOpcoes();
+
+        usuarioDAO.atualizarMetaPeso(idUsuarioLogado, pesoDesejado);
+    }
+
+
+
+
 
     public void moderateCarb(double basalValueNovo) {
 
@@ -302,8 +392,9 @@ public class MenuPrincipal {
         usuarioDAO.atualizarProteinaUsuario(idUsuarioLogado, proteinaInt);
         usuarioDAO.atualizarGorduraUsuario(idUsuarioLogado, gorduraInt);
         usuarioDAO.atualizarCarboidratoUsuario(idUsuarioLogado, carboidratoInt);
-
         menuPrincipalOpcoes();
+
+
 
 
     }
@@ -330,6 +421,7 @@ public class MenuPrincipal {
         menuPrincipalOpcoes();
 
 
+
     }
 
     public void higherCarb(double basalValueNovo) {
@@ -350,8 +442,9 @@ public class MenuPrincipal {
         usuarioDAO.atualizarProteinaUsuario(idUsuarioLogado, proteinaInt);
         usuarioDAO.atualizarGorduraUsuario(idUsuarioLogado, gorduraInt);
         usuarioDAO.atualizarCarboidratoUsuario(idUsuarioLogado, carboidratoInt);
-
         menuPrincipalOpcoes();
+
+
     }
 
 
@@ -526,22 +619,19 @@ public class MenuPrincipal {
                             return; // Retorne para encerrar a função se escolha for 4
 
 
-
                     }
                     break; // Saia do loop se a escolha for válida.
 
                 }
 
-                boolean atualizacaoBemSucedida = usuarioDAO.adicionarObjetivoUsuario(idUsuarioLogado, objetivo);
+                usuarioDAO.atualizarObjetivoUsuario(idUsuarioLogado, objetivo);
+                System.out.println("Objetivo atualizado no banco de dados: " + objetivo);
 
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Digite um número de 1 a 3.");
-            }
+        } catch (NumberFormatException e) {
+            // ...
+        }
 
-        } while (true);
-
-
-
+    } while (true);
 
     }
 
@@ -640,6 +730,7 @@ public class MenuPrincipal {
                 System.out.println("Escolha uma opção:");
                 System.out.println("1 - Mudar dados manualmente");
                 System.out.println("2 - Refazer dados");
+                System.out.println("3 - Voltar");
                 System.out.print("Digite o número da sua escolha: ");
 
                 try {
@@ -649,13 +740,17 @@ public class MenuPrincipal {
                         opcoesAtualizarDados();
                     } else if (escolha == 2) {
                         atualizarGeral();
+
+                    } else if (escolha == 3){
+                        dentroPerfil();
                     } else {
-                        System.out.println("Escolha inválida. Digite 1 ou 2.");
+                        System.out.println("Escolha inválida. Digite 1,2 ou 3.");
                     }
+
                 } catch (NumberFormatException e) {
                     System.out.println("Entrada inválida. Digite 1 ou 2.");
                 }
-            } while (escolha != 1 && escolha != 2);
+            } while (escolha != 1 && escolha != 3);
         }
 
 
@@ -821,6 +916,8 @@ public class MenuPrincipal {
 
         String objetivo = usuarioDAO.obterObjetivoUsuario(idUsuarioLogado);
         double basal_meta = usuarioDAO.obterBasalMeta(idUsuarioLogado);
+        double metaPeso = usuarioDAO.obterMetaPeso(idUsuarioLogado);
+
 
         // Obter os valores de proteína, gordura e carboidrato como números inteiros
         int proteinaInt = (int) Math.round(usuarioDAO.obterProteinaUsuario(idUsuarioLogado));
@@ -828,6 +925,7 @@ public class MenuPrincipal {
         int carboidratoInt = (int) Math.round(usuarioDAO.obterCarboidratoUsuario(idUsuarioLogado));
 
         System.out.println("Seu objetivo atual é de: " + objetivo);
+        System.out.println("Sua meta de peso é :" + metaPeso);
         System.out.println("Seu basal atual para seu objetivo é: " + basal_meta);
         System.out.println("Para obter sucesso no seu objetivo siga essa divisão de macronutrientes:");
         System.out.println("Proteína: " + proteinaInt );
@@ -876,7 +974,8 @@ public class MenuPrincipal {
                 System.out.println("Escolha uma opção:");
                 System.out.println("1 - Ver dados");
                 System.out.println("2 - Campanha");
-                System.out.println("3 - Voltar");
+                System.out.println("3 - Criar dados");
+                System.out.println("4 - Voltar");
                 System.out.print("Digite o número da opção desejada: ");
                 opcao = Integer.parseInt(scanner.nextLine());
 
@@ -896,8 +995,11 @@ public class MenuPrincipal {
                         campanha();
                         break;
                     case 3:
-                        menuPrincipalOpcoes();
+                        dados();
                         break;
+
+                    case 4 :
+                        menuPrincipalOpcoes();
                     default:
                         System.out.println("Opção inválida. Por favor, escolha 1, 2 ou 3.");
                 }

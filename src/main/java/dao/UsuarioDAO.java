@@ -550,10 +550,44 @@ public class UsuarioDAO {
         }
     }
 
+    public double obterMetaPeso(int idUsuario) {
+        double metaPeso = 0.0;
+        String query = "SELECT meta_peso FROM calculo_basal WHERE idusuario = ?";
+
+        try {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, idUsuario);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        metaPeso = resultSet.getDouble("meta_peso");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao obter a meta de peso do usuário " + idUsuario);
+        }
+
+        return metaPeso;
+    }
 
 
+    // Função para atualizar o valor da coluna meta_peso
+    public void atualizarMetaPeso(int idUsuario, double pesoDesejado) {
+        String query = "INSERT calculo_basal SET meta_peso = ? WHERE idusuario = ?";
 
-
+        try {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setDouble(1, pesoDesejado);
+                preparedStatement.setInt(2, idUsuario);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao atualizar o valor da coluna 'meta_peso' no banco de dados.");
+        }
+    }
 
 
 

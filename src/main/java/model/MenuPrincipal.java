@@ -237,15 +237,6 @@ public class MenuPrincipal {
 
     // Funções dos sub-menus:
 
-    //Sub menu Social
-
-    public void social () {
-        System.out.println("Area futura");
-    }
-
-    //
-
-
     // Sub menu Ferramentas:
 
     public double calcularBasal() {
@@ -700,8 +691,6 @@ public class MenuPrincipal {
         }
     }
 
-
-
     //Sub Menu Perfil:
 
     public void dados() {
@@ -1067,7 +1056,6 @@ public class MenuPrincipal {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Perfil");
             System.out.println("2 - Ferramentas");
-            System.out.println("3 - Social");
             System.out.println("0 - Sair");
 
             try {
@@ -1081,10 +1069,6 @@ public class MenuPrincipal {
                     case 2:
                         dentroMenuFerramentas();
                         System.out.println("Opção de Ferramentas selecionada");
-                        break;
-                    case 3:
-                        social();
-                        System.out.println("Opção de Social selecionada");
                         break;
                     case 0:
                         System.out.println("Saindo do programa.");

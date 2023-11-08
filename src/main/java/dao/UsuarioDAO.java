@@ -536,6 +536,41 @@ public class UsuarioDAO {
         }
     }
 
+    public boolean atualizarMetodoCarboidrato(int idUsuario, String carboidratoMetodo) {
+        String sql = "UPDATE calculo_basal SET metodo_carboidrato = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, carboidratoMetodo);
+            statement.setInt(2, idUsuario);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0; // Retorna verdadeiro se a atualização for bem-sucedida.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public String obterMetodoCarboidrato(int idUsuario) {
+        String sql = "SELECT metodo_carboidrato FROM calculo_basal WHERE idusuario = ?";
+        String metodoCarboidrato = null;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) { // Se houver resultado, pegue o valor.
+                    metodoCarboidrato = resultSet.getString("metodo_carboidrato");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return metodoCarboidrato; // Retorna o método de carboidrato ou null se não for encontrado.
+    }
+
+
+
     public boolean adicionarObjetivoUsuario(int idUsuario, String objetivo) {
         String sql = "INSERT INTO calculo_basal (idusuario, objetivo) VALUES (?, ?)";
 
@@ -575,7 +610,7 @@ public class UsuarioDAO {
 
     // Função para atualizar o valor da coluna meta_peso
     public void atualizarMetaPeso(int idUsuario, double pesoDesejado) {
-        String query = "INSERT calculo_basal SET meta_peso = ? WHERE idusuario = ?";
+        String query = "UPDATE calculo_basal SET meta_peso = ? WHERE idusuario = ?";
 
         try {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

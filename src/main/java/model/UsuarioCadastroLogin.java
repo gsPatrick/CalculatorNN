@@ -57,6 +57,7 @@ public class UsuarioCadastroLogin {
         Pattern senhaRegex = Pattern.compile(senhaPattern);
 
         while (true) {
+            System.out.println("(A senha deve conter no mínimo: Duas letras(uma maiúscula), um caractere especial e 6 dígitos numéricos)");
             System.out.print("Qual é a sua senha: ");
             String senha = scanner.nextLine();
 
@@ -83,6 +84,7 @@ public class UsuarioCadastroLogin {
     }
 
     private String obterApelido() {
+        System.out.println("(Ao criar um apelido, você pode optar por usá-lo para fazer o login, em vez do e-mail)");
         System.out.println("Deseja ter um apelido?");
         System.out.println("1 - Sim");
         System.out.println("2 - Não");
@@ -92,7 +94,7 @@ public class UsuarioCadastroLogin {
             escolha = Integer.parseInt(scanner.nextLine());
             if (escolha == 1) {
                 while (true) {
-                    System.out.print("Qual apelido você deseja ter: ");
+                    System.out.print("Qual apelido você deseja: ");
                     String apelido = scanner.nextLine();
                     if (apelido.length() <= 16) {
                         if (usuarioDAO.apelidoJaCadastrado(apelido)) {
@@ -115,7 +117,7 @@ public class UsuarioCadastroLogin {
 
     private boolean desejaFazerLogin() {
         while (true) {
-            System.out.println("Deseja:");
+            System.out.println("Deseja: ");
             System.out.println("1 - Login");
             System.out.println("2 - Sair");
 
@@ -153,8 +155,10 @@ public class UsuarioCadastroLogin {
                 }
 
                 System.out.println("Login bem-sucedido");
-                System.out.println("ID do usuário logado: " + idUsuarioLogado);
-                System.out.println("Email do usuário logado: " + emailUsuarioLogado);
+
+
+                System.out.println("Email do usuário logado: " + emailOuApelido);
+                System.out.println("seu ID: " + idUsuarioLogado);
 
                 MenuPrincipal menu = new MenuPrincipal(idUsuarioLogado, emailUsuarioLogado);
                 menu.menuPrincipalOpcoes();

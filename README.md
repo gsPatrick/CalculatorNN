@@ -1,4 +1,4 @@
-# ProjetoNN
+# CalculatorNN
 
 Este projeto inicialmente se chamava projetonn (um codinome para o seu verdadeiro nome, que ainda não será revelado pois pretendo torná-lo realidade), 
 atualmente ele se chama CalculatorNN (homenageando o projeto que iniciou este), basicamente é um programa que faz o cadastro da conta do usuário, permite fazer o login, 

@@ -573,7 +573,7 @@ public class MenuPrincipal {
             System.out.println("1 - Cutting");
             System.out.println("2 - Bulking");
             System.out.println("3 - Maintain");
-            System.out.println("4 - Voltar");
+            System.out.println("0 - Voltar");
 
             System.out.print("Digite o número da sua escolha: ");
 
@@ -594,7 +594,7 @@ public class MenuPrincipal {
                         case 3:
                             objetivo = "Maintain";
                             break;
-                        case 4:
+                        case 0:
                             return; // Retorne para encerrar a função se escolha for 4
                     }
 
@@ -796,7 +796,7 @@ public class MenuPrincipal {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Mudar dados manualmente");
             System.out.println("2 - Refazer dados");
-            System.out.println("3 - Voltar");
+            System.out.println("0 - Voltar");
             System.out.print("Digite o número da sua escolha: ");
 
             try {
@@ -807,7 +807,7 @@ public class MenuPrincipal {
                 } else if (escolha == 2) {
                     atualizarGeral();
 
-                } else if (escolha == 3) {
+                } else if (escolha == 0) {
                     dentroPerfil();
                 } else {
                     System.out.println("Escolha inválida. Digite 1,2 ou 3.");
@@ -827,7 +827,7 @@ public class MenuPrincipal {
         do {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Ver meus objetivos"); // Chamar função aqui
-            System.out.println("2 - Voltar"); // Chamar função aqui
+            System.out.println("0 - Voltar"); // Chamar função aqui
             System.out.print("Digite o número da sua escolha: ");
 
             try {
@@ -835,7 +835,7 @@ public class MenuPrincipal {
 
                 if (escolha == 1) {
                     verObjetivos();
-                } else if (escolha == 2) {
+                } else if (escolha == 0) {
                     dentroPerfil();
                 } else {
                     System.out.println("Escolha inválida. Digite 1 ou 2.");
@@ -855,7 +855,7 @@ public class MenuPrincipal {
                 System.out.println("1 - Ver dados");
                 System.out.println("2 - Campanha");
                 System.out.println("3 - Criar dados");
-                System.out.println("4 - Voltar");
+                System.out.println("0 - Voltar");
                 System.out.print("Digite o número da opção desejada: ");
                 opcao = Integer.parseInt(scanner.nextLine());
 
@@ -878,7 +878,7 @@ public class MenuPrincipal {
                         dados();
                         break;
 
-                    case 4 :
+                    case 0 :
                         menuPrincipalOpcoes();
                     default:
                         System.out.println("Opção inválida. Por favor, escolha 1, 2 ou 3.");
@@ -898,13 +898,13 @@ public class MenuPrincipal {
             try {
                 System.out.println("Escolha uma opção:");
                 System.out.println("1 - Mudar outro dado");
-                System.out.println("2 - Voltar");
+                System.out.println("0 - Voltar");
 
                 escolha = Integer.parseInt(scanner.nextLine());
 
                 if (escolha == 1) {
                     mudarDadosManualmente();
-                } else if (escolha == 2) {
+                } else if (escolha == 0) {
                     verDados(); // Chama a função para ver os dados
                 } else {
                     System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
@@ -1023,9 +1023,9 @@ public class MenuPrincipal {
         System.out.println("Seu basal atual para seu objetivo é: " + basal_metaINT + " Calorias");
         System.out.println("Você escolheu seguir a divisão de macro da forma: +  Lowcarb"  );
         System.out.println("Para obter sucesso no seu objetivo siga essa divisão de macronutrientes: ");
-        System.out.println("Consumir: " + proteinaInt + " de proteina");
-        System.out.println("Consumir: " + gorduraInt + " de gordura");
-        System.out.println("Consumir: " + carboidratoInt + " de carboidrato");
+        System.out.println("Consumir: " + proteinaInt + " gramas de proteina");
+        System.out.println("Consumir: " + gorduraInt + " gramas de gordura");
+        System.out.println("Consumir: " + carboidratoInt + " gramas de carboidrato");
 
 
         int opcao;

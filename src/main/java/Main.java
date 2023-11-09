@@ -19,12 +19,12 @@ public class Main {
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Fazer Login");
-            System.out.println("3 - Sair");
+            System.out.println("0 - Sair");
 
             try {
                 choice = Integer.parseInt(scanner.nextLine());
 
-                if (choice < 1 || choice > 3) {
+                if (choice < 0 || choice > 2) {
                     System.out.println("Opção inválida. Tente novamente.");
                 } else {
                     break;
@@ -41,7 +41,7 @@ public class Main {
             case 2:
                 cadastroLogin.fazerLogin(); // Função para fazer login
                 break;
-            case 3:
+            case 0:
                 System.out.println("Saindo do ProjetoNN");
                 System.exit(0);
                 break;

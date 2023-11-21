@@ -624,6 +624,137 @@ public class UsuarioDAO {
         }
     }
 
+    public void atualizarNumeroRefeicao(int idUsuario, int numerorefeicao) {
+        String sql = "UPDATE calculo_basal SET numerorefeicao = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, numerorefeicao);
+            statement.setInt(2, idUsuario);
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+            } else {
+                System.out.println("Não foi possível atualizar o número de refeições para o usuário com ID " + idUsuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int obterNumeroRefeicao(int idUsuario) {
+        int numerorefeicao = -1; // Valor padrão para indicar que não foi possível obter o valor de numerorefeicao
+
+        String sql = "SELECT numerorefeicao FROM calculo_basal WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                numerorefeicao = resultSet.getInt("numerorefeicao");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return numerorefeicao;
+    }
+
+    public void atualizarProteinaRefeicao(int idUsuario, double valor) {
+        String sql = "UPDATE calculo_basal SET proteinarefeicao = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, valor);
+            statement.setInt(2, idUsuario);
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+            } else {
+                System.out.println("Não foi possível atualizar o valor de proteinarefeicao para o usuário com ID " + idUsuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void atualizarCarboidratoRefeicao(int idUsuario, double valor) {
+        String sql = "UPDATE calculo_basal SET carboidratorefeicao = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, valor);
+            statement.setInt(2, idUsuario);
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+            } else {
+                System.out.println("Não foi possível atualizar o valor de proteinarefeicao para o usuário com ID " + idUsuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void atualizarGorduraRefeicao(int idUsuario, double valor) {
+        String sql = "UPDATE calculo_basal SET gordurarefeicao = ? WHERE idusuario = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, valor);
+            statement.setInt(2, idUsuario);
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+            } else {
+                System.out.println("Não foi possível atualizar o valor de proteinarefeicao para o usuário com ID " + idUsuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public double obterProteinaRefeicao(int idUsuario) {
+        String sql = "SELECT proteinarefeicao FROM calculo_basal WHERE idusuario = ?";
+        return obterValor(sql, idUsuario);
+    }
+
+    public double obterCarboidratoRefeicao(int idUsuario) {
+        String sql = "SELECT carboidratorefeicao FROM calculo_basal WHERE idusuario = ?";
+        return obterValor(sql, idUsuario);
+    }
+
+    public double obterGorduraRefeicao(int idUsuario) {
+        String sql = "SELECT gordurarefeicao FROM calculo_basal WHERE idusuario = ?";
+        return obterValor(sql, idUsuario);
+    }
+
+    // Função genérica para obter valores double
+    private double obterValor(String sql, int idUsuario) {
+        double valor = -1.0;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                valor = resultSet.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return valor;
+    }
+
+
+
+
 
 
 

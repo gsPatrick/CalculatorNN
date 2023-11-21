@@ -653,6 +653,168 @@ public class MenuPrincipal {
     }
 
 
+    public void divisaoRefeicao() {
+        // Supondo que você tenha uma instância de UsuarioDAO chamada "usuarioDAO"
+
+        // Obtendo os valores
+        double proteina = usuarioDAO.obterProteinaUsuario(idUsuarioLogado);
+        double carboidrato = usuarioDAO.obterCarboidratoUsuario(idUsuarioLogado);
+        double gordura = usuarioDAO.obterGorduraUsuario(idUsuarioLogado);
+        int numerorefeicao = usuarioDAO.obterNumeroRefeicao(idUsuarioLogado);
+
+        // Variáveis para armazenar os valores inteiros
+        int proteinaINTrefeicao = (int) proteina;
+        int carboidratoINTrefeicao = (int) carboidrato;
+        int gorduraINTrefeicao = (int) gordura;
+
+        // Verificando se os valores são válidos antes de realizar a divisão
+        if (numerorefeicao > 0) {
+            // Realizando a divisão
+            int proteinaPorRefeicao = proteinaINTrefeicao / numerorefeicao;
+            int carboidratoPorRefeicao = carboidratoINTrefeicao / numerorefeicao;
+            int gorduraPorRefeicao = gorduraINTrefeicao / numerorefeicao;
+
+            // Atualizando os valores no banco de dados (como inteiros)
+            usuarioDAO.atualizarProteinaRefeicao(idUsuarioLogado, proteinaPorRefeicao);
+            usuarioDAO.atualizarCarboidratoRefeicao(idUsuarioLogado, carboidratoPorRefeicao);
+            usuarioDAO.atualizarGorduraRefeicao(idUsuarioLogado, gorduraPorRefeicao);
+
+            // Exibindo os resultados
+            System.out.println("Proteína por refeição: " + usuarioDAO.obterProteinaRefeicao(idUsuarioLogado) + " gramas de proteina");
+            System.out.println("Carboidrato por refeição: " + usuarioDAO.obterCarboidratoRefeicao(idUsuarioLogado) + " gramas de carboidrato");
+            System.out.println("Gordura por refeição: " + usuarioDAO.obterGorduraRefeicao(idUsuarioLogado) + " gramas de gordura");
+
+            while (true) {
+                try {
+                    System.out.println("Opções:");
+                    System.out.println("0 - Voltar para Dieta");
+                    int opcao = scanner.nextInt();
+
+                    switch (opcao) {
+                        case 0:
+                            Dieta(); // Chama a função Dieta() para voltar
+                            return;
+                        default:
+                            System.out.println("Opção inválida. Por favor, escolha novamente.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada inválida. Por favor, insira um número.");
+                    scanner.nextLine(); // Limpar o buffer do scanner
+                }
+            }
+
+        } else {
+            System.out.println("O número de refeições deve ser maior que zero para realizar a divisão.");
+        }
+
+    }
+
+
+
+
+
+
+    public void numeroRefeição() {
+
+
+        int numeroRefeicoes;
+
+        while (true) {
+            try {
+                System.out.println("Quantas refeições você deseja fazer?");
+                System.out.println("0 - Voltar");
+                System.out.println("1 - Uma Refeição");
+                System.out.println("2 - Duas Refeições");
+                System.out.println("3 - Três Refeições");
+                System.out.println("4 - Quatro Refeições");
+                System.out.println("5 - Cinco Refeições");
+                System.out.println("6 - Seis Refeições");
+
+                numeroRefeicoes = scanner.nextInt();
+
+                switch (numeroRefeicoes) {
+                    case 0:
+                        System.out.println("Saindo do programa. Até mais!");
+                            Dieta();
+                        return; // Encerra o programa
+                    case 1:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 1);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    case 2:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 2);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    case 3:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 3);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    case 4:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 4);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    case 5:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 5);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    case 6:
+                        usuarioDAO.atualizarNumeroRefeicao(idUsuarioLogado, 6);
+                        System.out.println("Você terá um total de " + usuarioDAO.obterNumeroRefeicao(idUsuarioLogado) + " Refeições");
+                        divisaoRefeicao();
+                        break;
+                    default:
+                        System.out.println("Por favor, escolha um número de 0 a 6.");
+                        continue; // Volta para o início do loop para pedir uma entrada válida
+                }
+
+                // Adicione aqui a lógica específica para cada número de refeições
+
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                scanner.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+
+    public void Dieta() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1 - Numero de refeição");
+            System.out.println("2 - Tabela Nutricional");
+            System.out.println("0 - Voltar");
+            try {
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1:
+                        numeroRefeição();
+                        break;
+                    case 2:
+                        dentroMenuFerramentas();
+                        break;
+                    case 0:
+                        dentroMenuFerramentas();
+                        break;
+                    default:
+                        System.out.println("Escolha inválida. Digite 0 ou 1.");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite 0 ou 1.");
+            }
+        }
+
+    }
+
+
+
     public void dentroMenuFerramentas() {
 
         boolean sair = false;
@@ -675,8 +837,7 @@ public class MenuPrincipal {
                         Divisor();
                         break;
                     case 3:
-                        // Implemente a opção "Dieta" aqui
-                        System.out.println("Opção 'Dieta' selecionada.");
+                        Dieta();
                         break;
                     case 0:
                         menuPrincipalOpcoes();
